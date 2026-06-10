@@ -315,3 +315,8 @@ body{
 body {
     background: #f3f4f6;
 }
+.admin-image{
+    width:300px;
+    height:auto;
+    margin-top:30px;
+}
