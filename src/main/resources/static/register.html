@@ -6,30 +6,62 @@
 </head>
 <body>
 
-<div class="register-box">
+<div class="container">
 
-    <h2>Student Registration</h2>
+    <div class="left-panel">
 
-    <input type="text" id="name" placeholder="Full Name">
+        <h1 class="welcome-text">
+            Create Your <br>
+            Student Account
+        </h1>
 
-    <input type="email" id="email" placeholder="Email">
+        <p>
+            Register to submit complaints and track their status online.
+        </p>
 
-    <input type="password" id="password" placeholder="Password">
+        <img
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+                alt="Student Register">
+    </div>
 
-    <button onclick="registerStudent()">Register</button>
+    <div class="right-panel">
 
-    <p id="message"></p>
+        <div class="form-box">
 
-    <a href="login.html">Already have an account? Login</a>
+            <h2>Student Registration</h2>
+
+            <input type="text" id="name" placeholder="Full Name">
+
+            <input type="email" id="email" placeholder="Email">
+
+            <input type="password" id="password" placeholder="Password">
+
+            <button onclick="registerStudent()">Register</button>
+
+            <p id="message"></p>
+
+            <p>
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+
+        </div>
+
+    </div>
 
 </div>
 
 <script>
     function registerStudent() {
 
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const name =
+            document.getElementById("name").value;
+
+        const email =
+            document.getElementById("email").value;
+
+        const password =
+            document.getElementById("password").value;
 
         fetch("/api/auth/register", {
             method: "POST",
@@ -44,10 +76,12 @@
         })
             .then(response => response.text())
             .then(data => {
+
                 document.getElementById("message").innerHTML = data;
 
                 if (data.includes("Successful")) {
-                    alert("Registration successful!");
+                    alert("Registration successful! You can login now.");
+                    window.location.href = "login.html";
                 }
             })
             .catch(error => {
