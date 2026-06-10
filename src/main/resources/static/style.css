@@ -776,6 +776,158 @@ button:hover {
 .resolved-admin {
     background: linear-gradient(135deg, #10b981, #059669);
 }
+.home-body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f2fe, #ede9fe);
+    min-height: 100vh;
+}
+
+.home-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 60px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.brand img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.home-navbar a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: white;
+    background: #2563eb;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.home-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 70px;
+    gap: 40px;
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 20px;
+    color: #334155;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    margin-top: 30px;
+}
+
+.primary-btn,
+.secondary-btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.primary-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.secondary-btn {
+    background: #10b981;
+    color: white;
+}
+
+.hero-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    width: 320px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+}
+
+.hero-card h2 {
+    color: #1e3a8a;
+}
+
+.hero-card p {
+    font-size: 17px;
+    color: #374151;
+}
+
+.home-stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px 70px 70px;
+}
+
+.home-stats div {
+    background: white;
+    width: 260px;
+    padding: 25px;
+    text-align: center;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.home-stats h2 {
+    color: #2563eb;
+}
+
+.home-stats p {
+    color: #374151;
+}
+
+@media (max-width: 800px) {
+    .home-navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .home-hero {
+        flex-direction: column;
+        padding: 40px 25px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 34px;
+    }
+
+    .home-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+}
 /* Footer */
 
 footer{
