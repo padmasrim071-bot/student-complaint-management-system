@@ -1,184 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Submit Complaint</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<h1>Student Complaint Portal</h1>
-
-<a href="student-dashboard.html">
-    Back to Dashboard
-</a>
-
-<hr>
-
-<h2>Submit Complaint</h2>
-
-<label>Title:</label>
-<br>
-
-<input
-        type="text"
-        id="title"
-        placeholder="Enter complaint title">
-
-<br><br>
-
-<label>Category:</label>
-<br>
-
-<select id="category">
-
-    <option value="WiFi">WiFi</option>
-
-    <option value="Hostel">
-        Hostel
-    </option>
-
-    <option value="Library">
-        Library
-    </option>
-
-    <option value="Laboratory">
-        Laboratory
-    </option>
-
-    <option value="Classroom">
-        Classroom
-    </option>
-
-    <option value="Transport">
-        Transport
-    </option>
-
-</select>
-
-<br><br>
-
-<label>Description:</label>
-<br>
-
-<textarea
-        id="description"
-        rows="5"
-        cols="40"
-        placeholder="Enter complaint description">
-</textarea>
-
-<br><br>
-
-<button onclick="submitComplaint()">
-    Submit Complaint
-</button>
-
-<p id="message"></p>
-
 <script>
-
     function submitComplaint() {
 
-        const userId =
-            localStorage.getItem("userId");
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+            document.getElementById("message").innerHTML =
+                "Please login first!";
+            return;
+        }
 
         const complaint = {
-
-            title:
-            document.getElementById("title").value,
-
-            description:
-            document.getElementById("description").value,
-
-            category:
-            document.getElementById("category").value,
-
-            userId:
-            userId
+            title: document.getElementById("title").value,
+            description: document.getElementById("description").value,
+            category: document.getElementById("category").value,
+            userId: userId
         };
 
-        fetch(
-            "http://localhost:8080/api/complaints",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body:
-                    JSON.stringify(complaint)
-            }
-        )
-
-            .then(response => response.json())
-
+        fetch("/api/complaints", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(complaint)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to submit complaint");
+                }
+                return response.json();
+            })
             .then(data => {
-
-                document.getElementById("message")
-                    .innerHTML =
+                document.getElementById("message").innerHTML =
                     "Complaint Submitted Successfully!";
 
                 document.getElementById("title").value = "";
-
                 document.getElementById("description").value = "";
-
                 document.getElementById("category").selectedIndex = 0;
             })
-
             .catch(error => {
-
-                document.getElementById("message")
-                    .innerHTML =
+                document.getElementById("message").innerHTML =
                     "Error submitting complaint!";
+                console.error(error);
             });
     }
-    function updateStatus(id, status) {
-
-        fetch(
-            `http://localhost:8080/api/complaints/${id}/status?status=${status}`,
-            {
-                method: "PUT"
-            }
-        )
-            .then(() => {
-
-                alert("Complaint status updated successfully!");
-
-                location.reload();
-            });
-    }
-    function deleteComplaint(id) {
-
-        if(confirm("Are you sure you want to delete this complaint?")) {
-
-            fetch(
-                `http://localhost:8080/api/complaints/${id}`,
-                {
-                    method: "DELETE"
-                }
-            )
-                .then(() => {
-
-                    alert("Complaint deleted successfully!");
-
-                    location.reload();
-                });
-        }
-    }
-
 </script>
-<footer>
-
-    <p>
-        © 2026 Student Complaint Management System
-    </p>
-
-    <p>
-        Developed by Padmasri M
-    </p>
-
-</footer>
-</body>
-</html>
