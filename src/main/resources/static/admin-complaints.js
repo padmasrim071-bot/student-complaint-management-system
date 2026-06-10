@@ -1,7 +1,7 @@
 loadComplaints();
 
 function loadComplaints() {
-    fetch("http://localhost:8080/api/complaints")
+    fetch("/api/complaints")
         .then(response => response.json())
         .then(data => displayComplaints(data));
 }
@@ -43,7 +43,7 @@ function displayComplaints(data) {
 }
 
 function filterByStatus(status) {
-    fetch("http://localhost:8080/api/complaints")
+    fetch("/api/complaints")
         .then(response => response.json())
         .then(data => {
             const filtered = data.filter(c => c.status === status);
@@ -55,7 +55,7 @@ function searchComplaints() {
     const keyword =
         document.getElementById("searchBox").value.toLowerCase();
 
-    fetch("http://localhost:8080/api/complaints")
+    fetch("/api/complaints")
         .then(response => response.json())
         .then(data => {
             const filtered = data.filter(c =>
@@ -67,8 +67,7 @@ function searchComplaints() {
 }
 
 function updateStatus(id, status) {
-
-    fetch(`http://localhost:8080/api/complaints/${id}/status?status=${status}`, {
+    fetch(`/api/complaints/${id}/status?status=${status}`, {
         method: "PUT"
     })
         .then(response => {
@@ -82,10 +81,8 @@ function updateStatus(id, status) {
 }
 
 function deleteComplaint(id) {
-
     if (confirm("Are you sure you want to delete this complaint?")) {
-
-        fetch(`http://localhost:8080/api/complaints/${id}`, {
+        fetch(`/api/complaints/${id}`, {
             method: "DELETE"
         })
             .then(response => {
