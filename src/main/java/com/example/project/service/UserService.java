@@ -39,16 +39,12 @@ public class UserService {
         user.setPassword(request.getPassword());
         user.setRole("STUDENT");
 
-        user.setVerified(false);
-
-        String token = UUID.randomUUID().toString();
-        user.setVerificationToken(token);
+        user.setVerified(true);
+        user.setVerificationToken(null);
 
         userRepository.save(user);
 
-        emailService.sendVerificationEmail(user.getEmail(), token);
-
-        return "Registration Successful. Please verify your email.";
+        return "Registration Successful. You can login now.";
     }
 
     public LoginResponse login(LoginRequest request) {
