@@ -28,7 +28,7 @@
   const params = new URLSearchParams(window.location.search);
   const complaintId = params.get("id");
 
-  fetch(`http://localhost:8080/api/complaints/${complaintId}`)
+  fetch(`/api/complaints/${complaintId}`)
           .then(response => response.json())
           .then(c => {
 
