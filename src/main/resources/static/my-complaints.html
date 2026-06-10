@@ -60,9 +60,8 @@
     let allComplaints = [];
 
     loadComplaints();
-
     function loadComplaints() {
-        fetch(`http://localhost:8080/api/complaints/user/${userId}`)
+        fetch(`/api/complaints/user/${userId}`)
             .then(res => res.json())
             .then(data => {
                 allComplaints = data;
