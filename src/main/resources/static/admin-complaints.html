@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complaints</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+
+    <h2>Complaint System</h2>
+
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="admin-statistics.html">Statistics</a>
+    <a href="admin-complaints.html">Complaints</a>
+    <a href="login.html">Logout</a>
+
+</div>
+
+<div class="main-content">
+
+    <h1>Manage Complaints</h1>
+
+    <div class="card">
+
+        <h2>Search Complaint</h2>
+
+        <input
+                type="text"
+                id="searchBox"
+                placeholder="Search by title">
+
+        <button onclick="searchComplaints()">
+            Search
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <button onclick="loadComplaints()">
+            All
+        </button>
+
+        <button onclick="filterByStatus('PENDING')">
+            Pending
+        </button>
+
+        <button onclick="filterByStatus('IN_PROGRESS')">
+            In Progress
+        </button>
+
+        <button onclick="filterByStatus('RESOLVED')">
+            Resolved
+        </button>
+
+        <button onclick="filterByStatus('REJECTED')">
+            Rejected
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+
+            </thead>
+
+            <tbody id="complaintsTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<script src="admin-complaints.js"></script>
+
+</body>
+</html>

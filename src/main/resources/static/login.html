@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Login</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="left-panel">
+
+        <h1 class="welcome-text">
+            Welcome to <br>
+            Student Portal
+        </h1>
+
+        <img
+                src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png"
+                alt="Student">
+    </div>
+    <div class="right-panel">
+
+        <div class="form-box">
+
+            <h1>Sign In</h1>
+
+            <input type="email"
+                   id="email"
+                   placeholder="Email">
+
+            <input type="password"
+                   id="password"
+                   placeholder="Password">
+            <p>
+                <a href="forgot-password.html">
+                    Forgot Password?
+                </a>
+            </p>
+
+            <button onclick="login()">
+                Sign In
+            </button>
+
+            <p>
+                Don't have an account?
+                <a href="register.html">
+                    Sign Up
+                </a>
+            </p>
+
+            <p id="message"></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function login() {
+
+        const email =
+            document.getElementById("email").value;
+
+        const password =
+            document.getElementById("password").value;
+
+        fetch("http://localhost:8080/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.message === "Login Successful") {
+
+                    localStorage.setItem(
+                        "userId",
+                        data.userId
+                    );
+
+                    localStorage.setItem(
+                        "role",
+                        data.role
+                    );
+
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
+
+                    if (data.role === "ADMIN") {
+
+                        window.location.href =
+                            "admin-dashboard.html";
+                    } else {
+
+                        window.location.href =
+                            "student-dashboard.html";
+                    }
+                } else {
+
+                    document.getElementById("message")
+                        .innerHTML =
+                        data.message;
+                }
+            });
+    }
+
+</script>
+
+</body>
+</html>

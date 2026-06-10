@@ -1,0 +1,122 @@
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <div class="logo-section">
+
+            <img src="/images/college-logo.png"
+                 alt="College Logo">
+
+            <h2>
+                Student Complaint Management System
+            </h2>
+
+            <p>
+                Government Arts and Science College for Women
+            </p>
+
+        </div>
+
+        <a href="admin-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="admin-statistics.html">
+            Statistics
+        </a>
+
+        <a href="admin-complaints.html">
+            Complaints
+        </a>
+
+        <a href="login.html"
+           onclick="return confirm('Are you sure you want to logout?')">
+            Logout
+        </a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <h1>Admin Dashboard</h1>
+
+        <div class="admin-stats">
+
+            <div class="admin-stat-card total-admin">
+                <h3>Total Complaints</h3>
+                <p id="totalCount">0</p>
+            </div>
+
+            <div class="admin-stat-card pending-admin">
+                <h3>Pending</h3>
+                <p id="pendingCount">0</p>
+            </div>
+
+            <div class="admin-stat-card progress-admin">
+                <h3>In Progress</h3>
+                <p id="progressCount">0</p>
+            </div>
+
+            <div class="admin-stat-card resolved-admin">
+                <h3>Resolved</h3>
+                <p id="resolvedCount">0</p>
+            </div>
+
+        </div>
+        <div class="card">
+
+            <h2>Welcome Admin</h2>
+            <p>
+                Manage student complaints, track complaint status,
+                and monitor complaint statistics efficiently.
+            </p>
+            <p>
+                <strong>Today's Date:</strong>
+                <span id="todayDate"></span>
+            </p>
+
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+<footer>
+
+    <p>
+        © 2026 Student Complaint Management System
+    </p>
+
+    <p>
+        Developed by Padmasri M
+    </p>
+
+</footer>
+<script>
+
+    document.getElementById("todayDate").innerHTML =
+        new Date().toDateString();
+
+</script>
+<script>
+    fetch("http://localhost:8080/api/complaints/dashboard")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("totalCount").innerText = data.totalComplaints;
+            document.getElementById("pendingCount").innerText = data.pending;
+            document.getElementById("progressCount").innerText = data.inProgress;
+            document.getElementById("resolvedCount").innerText = data.resolved;
+        });
+</script>
+</body>

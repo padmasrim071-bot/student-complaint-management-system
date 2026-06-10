@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Complaints</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Student Panel</h2>
+    <a href="student-dashboard.html">Dashboard</a>
+    <a href="submit-complaint.html">Submit Complaint</a>
+    <a href="my-complaints.html">My Complaints</a>
+    <a href="student-profile.html">My Profile</a>
+    <a href="login.html">Logout</a>
+</div>
+
+<div class="main-content">
+
+    <h1>My Complaints</h1>
+
+    <div class="card">
+        <input
+                type="text"
+                id="searchBox"
+                placeholder="Search Complaint Title"
+                onkeyup="searchComplaints()">
+
+        <button onclick="loadComplaints()">
+            Reset
+        </button>
+        <button onclick="resetSearch()">
+            Reset
+        </button>
+    </div>
+
+    <div class="card">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+
+            <tbody id="tableData"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    const userId = localStorage.getItem("userId");
+
+    let allComplaints = [];
+
+    loadComplaints();
+
+    function loadComplaints() {
+        fetch(`http://localhost:8080/api/complaints/user/${userId}`)
+            .then(res => res.json())
+            .then(data => {
+                allComplaints = data;
+                displayComplaints(data);
+            });
+    }
+    function displayComplaints(data) {
+
+        let rows = "";
+
+        if (!data || data.length === 0) {
+            document.getElementById("tableData").innerHTML =
+                `
+            <tr>
+                <td colspan="6" style="text-align:center; color:red; font-weight:bold; padding:20px;">
+                    No complaints found
+                </td>
+            </tr>
+            `;
+            return;
+        }
+
+        data.forEach(c => {
+            let statusClass = getStatusClass(c.status);
+
+            rows += `
+            <tr>
+                <td>${c.id}</td>
+                <td>${c.title || ""}</td>
+                <td>${c.category || "-"}</td>
+                <td>
+                    <span class="${statusClass}">
+                        ${c.status}
+                    </span>
+                </td>
+                <td>${c.createdAt ? c.createdAt.substring(0, 10) : ""}</td>
+                <td>
+                    <a href="complaint-details.html?id=${c.id}" class="view-btn">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+        `;
+        });
+
+        document.getElementById("tableData").innerHTML = rows;
+    }
+
+    function searchComplaints() {
+
+        const keyword = document
+            .getElementById("searchBox")
+            .value
+            .trim()
+            .toLowerCase();
+
+        if (keyword === "") {
+            displayComplaints(allComplaints);
+            return;
+        }
+
+        const filtered = allComplaints.filter(c =>
+            c.title &&
+            c.title.toLowerCase().includes(keyword)
+        );
+
+        displayComplaints(filtered);
+    }
+
+    function getStatusClass(status) {
+        if (status === "PENDING") {
+            return "pending";
+        } else if (status === "RESOLVED") {
+            return "resolved";
+        } else if (status === "IN_PROGRESS") {
+            return "progress";
+        } else {
+            return "rejected";
+        }
+    }
+    function resetSearch() {
+        document.getElementById("searchBox").value = "";
+        displayComplaints(allComplaints);
+    }
+</script>
+
+<footer>
+    <p>© 2026 Student Complaint Management System</p>
+    <p>Developed by Padmasri M</p>
+</footer>
+
+</body>
+</html>

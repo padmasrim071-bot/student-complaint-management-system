@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Complaint Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Student Panel</h2>
+  <a href="student-dashboard.html">Dashboard</a>
+  <a href="submit-complaint.html">Submit Complaint</a>
+  <a href="my-complaints.html">My Complaints</a>
+  <a href="login.html">Logout</a>
+</div>
+
+<div class="main-content">
+
+  <h1>Complaint Details</h1>
+
+  <div class="details-card" id="details">
+    Loading...
+  </div>
+
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const complaintId = params.get("id");
+
+  fetch(`http://localhost:8080/api/complaints/${complaintId}`)
+          .then(response => response.json())
+          .then(c => {
+
+            const statusClass = getStatusClass(c.status);
+
+            document.getElementById("details").innerHTML = `
+            <h2>${c.title}</h2>
+
+            <p class="details-row"><b>Complaint ID:</b> ${c.id}</p>
+            <p class="details-row"><b>Category:</b> ${c.category || "No Category"}</p>
+            <p class="details-row"><b>Description:</b> ${c.description}</p>
+
+            <p class="details-row">
+                <b>Status:</b>
+                <span class="${statusClass}">
+                    ${c.status}
+                </span>
+            </p>
+
+            <p class="details-row"><b>Created Date:</b> ${c.createdAt}</p>
+
+            <a href="my-complaints.html" class="back-link">
+                Back to My Complaints
+            </a>
+        `;
+          });
+
+  function getStatusClass(status) {
+    if (status === "PENDING") return "pending";
+    if (status === "RESOLVED") return "resolved";
+    if (status === "IN_PROGRESS") return "progress";
+    return "rejected";
+  }
+</script>
+
+<footer>
+  <p>© 2026 Student Complaint Management System</p>
+  <p>Developed by Padmasri M</p>
+</footer>
+
+</body>
+</html>

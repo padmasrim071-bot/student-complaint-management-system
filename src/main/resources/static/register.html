@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="auth.css">
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .box{
+            background:white;
+            padding:30px;
+            width:350px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:10px 0;
+        }
+
+        button{
+            width:100%;
+            padding:10px;
+            background:green;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        h2{
+            text-align:center;
+        }
+
+        p{
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Student Registration</h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+
+    <input type="email" id="email" placeholder="Email">
+
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="registerUser()">Register</button>
+
+    <p id="message"></p>
+
+    <a href="login.html">Already have an account? Login</a>
+
+</div>
+
+<script>
+
+    function registerUser(){
+
+        const user = {
+
+            name: document.getElementById("name").value,
+
+            email: document.getElementById("email").value,
+
+            password: document.getElementById("password").value
+        };
+
+        fetch("http://localhost:8080/api/auth/register",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(user)
+
+        })
+            .then(response => response.text())
+            .then(data => {
+
+                document.getElementById("message").innerHTML = data;
+
+                if(data === "Registration Successful"){
+
+                    setTimeout(() => {
+
+                        window.location.href="login.html";
+
+                    },1500);
+                }
+            });
+    }
+
+</script>
+
+</body>
+</html>

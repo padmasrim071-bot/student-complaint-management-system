@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Statistics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+
+    <h2>Complaint System</h2>
+
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="admin-statistics.html">Statistics</a>
+    <a href="admin-complaints.html">Complaints</a>
+    <a href="login.html">Logout</a>
+
+</div>
+
+<div class="main-content">
+
+    <h1>Complaint Statistics</h1>
+
+    <div class="card">
+
+        <div id="stats">
+            Loading...
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Complaint Analytics</h2>
+        <div class="chart-container">
+
+            <canvas id="complaintChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    fetch("http://localhost:8080/api/complaints/dashboard")
+        .then(response => response.json())
+        .then(data => {
+
+            document.getElementById("stats").innerHTML = `
+            <b>Total:</b> ${data.totalComplaints}<br>
+            <b>Pending:</b> ${data.pending}<br>
+            <b>Resolved:</b> ${data.resolved}<br>
+            <b>In Progress:</b> ${data.inProgress}<br>
+            <b>Rejected:</b> ${data.rejected}
+        `;
+
+            const ctx =
+                document.getElementById("complaintChart");
+
+            new Chart(ctx, {
+
+                type: "pie",
+
+                data: {
+
+                    labels: [
+                        "Pending",
+                        "Resolved",
+                        "In Progress",
+                        "Rejected"
+                    ],
+
+                    datasets: [{
+                        data: [
+                            data.pending,
+                            data.resolved,
+                            data.inProgress,
+                            data.rejected
+                        ]
+                    }]
+                }
+            });
+        });
+
+</script>
+
+</body>
+</html>

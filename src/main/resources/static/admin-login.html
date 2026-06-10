@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="left-panel">
+
+        <h1>
+            Welcome to<br>
+            Admin Portal
+        </h1>
+
+        <p>
+            Manage complaints, update status,
+            and view complaint statistics.
+        </p>
+
+    </div>
+
+    <div class="right-panel">
+        <div class="form-box">
+        <h2>Admin Login</h2>
+
+        <input
+                type="email"
+                id="email"
+                placeholder="Enter Admin Email">
+
+        <input
+                type="password"
+                id="password"
+                placeholder="Enter Password">
+
+        <button onclick="login()">
+            Sign In
+        </button>
+
+        <p id="message"></p>
+
+        <br>
+
+        <a href="index.html">
+            Back to Home
+        </a>
+
+    </div>
+</div>
+</div>
+
+<script>
+
+    function login() {
+
+        const email =
+            document.getElementById("email").value;
+
+        const password =
+            document.getElementById("password").value;
+
+        fetch("http://localhost:8080/api/auth/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+
+        })
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                document.getElementById("message")
+                    .innerHTML = data.message;
+
+                if(data.message === "Login Successful") {
+
+                    localStorage.setItem(
+                        "userId",
+                        data.userId
+                    );
+
+                    localStorage.setItem(
+                        "role",
+                        data.role
+                    );
+
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
+
+                    window.location.href =
+                        "admin-dashboard.html";
+                }
+
+                else {
+
+                    document.getElementById("message")
+                        .innerHTML =
+                        "Access Denied! Admin Only.";
+                }
+            })
+
+            .catch(error => {
+
+                document.getElementById("message")
+                    .innerHTML =
+                    "Login Failed!";
+            });
+    }
+
+</script>
+
+</body>
+</html>

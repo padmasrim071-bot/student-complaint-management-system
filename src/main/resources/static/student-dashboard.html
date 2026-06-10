@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Student Panel</h2>
+    <a href="student-dashboard.html">Dashboard</a>
+    <a href="submit-complaint.html">Submit Complaint</a>
+    <a href="my-complaints.html">My Complaints</a>
+    <a href="student-profile.html">My Profile</a>
+    <a href="login.html">Logout</a>
+</div>
+
+<div class="main-content">
+
+    <div class="dashboard-banner">
+         Student Complaint Management System
+    </div>
+
+    <h1 id="welcomeText">Welcome Student</h1>
+
+    <div class="stats-container">
+
+        <div class="stat-card total-card">
+            <h3>Total Complaints</h3>
+            <p id="totalComplaints">0</p>
+        </div>
+
+        <div class="stat-card pending-card">
+            <h3>Pending</h3>
+            <p id="pendingComplaints">0</p>
+        </div>
+
+        <div class="stat-card resolved-card">
+            <h3>Resolved</h3>
+            <p id="resolvedComplaints">0</p>
+        </div>
+
+    </div>
+
+    <div class="profile-card student-profile-box">
+
+        <img
+                id="studentPhoto"
+                src="images/student.png"
+                alt="Student Photo">
+
+        <h3 id="studentName">Student</h3>
+        <p id="studentEmail">student@gmail.com</p>
+        <p id="studentDepartment">Department</p>
+        <p id="studentYear">Year</p>
+
+    </div>
+
+    <div class="card quick-card">
+        <h2>Quick Actions</h2>
+        <p>Create and track your complaints from this dashboard.</p>
+    </div>
+
+    <div class="logo-section">
+        <img src="images/college-logo.png" alt="College Logo">
+        <h2>Student Complaint System</h2>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Student Complaint Management System</p>
+    <p>Developed by Padmasri M</p>
+</footer>
+
+<script>
+    const profile = JSON.parse(localStorage.getItem("studentProfile"));
+
+    if (profile) {
+        document.getElementById("studentName").innerText =
+            profile.name || "Student";
+
+        document.getElementById("studentEmail").innerText =
+            profile.email || "student@gmail.com";
+
+        document.getElementById("studentDepartment").innerText =
+            profile.department || "Department";
+
+        document.getElementById("studentYear").innerText =
+            profile.year || "Year";
+
+        document.getElementById("welcomeText").innerText =
+            "Welcome, " + (profile.name || "Student") + " ";
+
+        if (profile.image) {
+            document.getElementById("studentPhoto").src =
+                profile.image;
+        }
+    }
+
+    fetch("http://localhost:8080/api/complaints")
+        .then(response => response.json())
+        .then(data => {
+
+            document.getElementById("totalComplaints").innerText =
+                data.length;
+
+            const pending =
+                data.filter(c => c.status === "PENDING").length;
+
+            const resolved =
+                data.filter(c => c.status === "RESOLVED").length;
+
+            document.getElementById("pendingComplaints").innerText =
+                pending;
+
+            document.getElementById("resolvedComplaints").innerText =
+                resolved;
+        });
+</script>
+
+</body>
+</html>
