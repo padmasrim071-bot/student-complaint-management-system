@@ -53,7 +53,6 @@
 </div>
 
 <script>
-
     function login() {
 
         const email =
@@ -62,7 +61,7 @@
         const password =
             document.getElementById("password").value;
 
-        fetch("http://localhost:8080/api/auth/login", {
+        fetch("/api/auth/login", {
 
             method: "POST",
 
@@ -76,51 +75,27 @@
             })
 
         })
-
             .then(response => response.json())
-
             .then(data => {
 
-                document.getElementById("message")
-                    .innerHTML = data.message;
+                if(data.message === "Login Successful" && data.role === "ADMIN") {
 
-                if(data.message === "Login Successful") {
+                    localStorage.setItem("userId", data.userId);
+                    localStorage.setItem("role", data.role);
+                    localStorage.setItem("token", data.token);
 
-                    localStorage.setItem(
-                        "userId",
-                        data.userId
-                    );
-
-                    localStorage.setItem(
-                        "role",
-                        data.role
-                    );
-
-                    localStorage.setItem(
-                        "token",
-                        data.token
-                    );
-
-                    window.location.href =
-                        "admin-dashboard.html";
+                    window.location.href = "admin-dashboard.html";
                 }
-
                 else {
-
-                    document.getElementById("message")
-                        .innerHTML =
+                    document.getElementById("message").innerHTML =
                         "Access Denied! Admin Only.";
                 }
             })
-
             .catch(error => {
-
-                document.getElementById("message")
-                    .innerHTML =
+                document.getElementById("message").innerHTML =
                     "Login Failed!";
             });
     }
-
 </script>
 
 </body>
