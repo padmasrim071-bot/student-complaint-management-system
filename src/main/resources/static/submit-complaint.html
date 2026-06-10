@@ -1,3 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Complaint</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Student Panel</h2>
+    <a href="student-dashboard.html">Dashboard</a>
+    <a href="submit-complaint.html">Submit Complaint</a>
+    <a href="my-complaints.html">My Complaints</a>
+    <a href="student-profile.html">My Profile</a>
+    <a href="login.html">Logout</a>
+</div>
+
+<div class="main-content">
+    <h1>Submit Complaint</h1>
+
+    <div class="card">
+        <label>Title:</label>
+        <input type="text" id="title" placeholder="Enter complaint title">
+
+        <label>Category:</label>
+        <select id="category">
+            <option value="WiFi">WiFi</option>
+            <option value="Hostel">Hostel</option>
+            <option value="Library">Library</option>
+            <option value="Laboratory">Laboratory</option>
+            <option value="Classroom">Classroom</option>
+            <option value="Transport">Transport</option>
+        </select>
+
+        <label>Description:</label>
+        <textarea id="description" rows="5" placeholder="Enter complaint description"></textarea>
+
+        <button onclick="submitComplaint()">Submit Complaint</button>
+
+        <p id="message"></p>
+    </div>
+</div>
+
 <script>
     function submitComplaint() {
 
@@ -11,8 +54,8 @@
 
         const complaint = {
             title: document.getElementById("title").value,
-            description: document.getElementById("description").value,
             category: document.getElementById("category").value,
+            description: document.getElementById("description").value,
             userId: userId
         };
 
@@ -25,7 +68,7 @@
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Failed to submit complaint");
+                    throw new Error("Complaint submit failed");
                 }
                 return response.json();
             })
@@ -40,7 +83,9 @@
             .catch(error => {
                 document.getElementById("message").innerHTML =
                     "Error submitting complaint!";
-                console.error(error);
             });
     }
 </script>
+
+</body>
+</html>
